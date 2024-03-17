@@ -2,18 +2,17 @@
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { PrismaClient } from '@prisma/client';
-import { getServerSession } from 'next-auth';
+import { unstable_getServerSession as getServerSession } from "next-auth/next";
 import { authOption } from './auth/[...nextauth]';
-
 const prisma = new PrismaClient();
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const session = getServerSession(authOption)
+  const session = await getServerSession(req, res, authOption);
+
   if (req.method === 'POST') {
-    // Extracting the question and options from the request body
     const { id, context, context_v2, prompt, options } = req.body;
 
     try {
@@ -25,6 +24,9 @@ export default async function handler(
         options,
       });
 
+      
+      
+
       // Assuming llmResponse returns an object { answer: string }
       const answer = llmResponse.answer;
 
@@ -34,7 +36,7 @@ export default async function handler(
           question: prompt,
           response: answer,
           options: options,
-          email: session.user?.email, 
+          email: session?.user?.email, 
         },
       });
 
@@ -51,21 +53,18 @@ export default async function handler(
   }
 }
 
-// You might need to import Axios at the beginning of your file if it's not already there
+
 import axios from 'axios';
 
 async function sendQuestionToLLM(questionPayload: any): Promise<{ answer: string, id: string }> {
   try {
-    // Replace with the actual URL of the LLM service
     const llmServiceUrl = 'http://chat-app-lb-1984454339.us-east-1.elb.amazonaws.com:8000/predict';
     
-    // Send the POST request to the LLM service
     const { data } = await axios.post(llmServiceUrl, questionPayload);
 
     // Returning the 'best_option' from the response as 'answer'
     return { answer: data.best_option, id: data.id };
   } catch (error) {
-    // If there's an error, throw it so the calling function can handle it
     throw error;
   }
 }

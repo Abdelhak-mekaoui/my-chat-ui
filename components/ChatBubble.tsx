@@ -27,7 +27,6 @@ const ChatBubble: React.FC<ChatBubbleProps> = () => {
           throw new Error(`Error: ${response.status}`);
         }
         const data = await response.json();
-        // Reverse the order of the messages here so the newest are on top
         setMessages((data.messages || []).reverse());
       } catch (error) {
         console.error('Failed to fetch messages:', error);
@@ -36,7 +35,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = () => {
 
     // Fetch messages immediately on mount and set up a timer to fetch them repeatedly
     fetchMessages();
-    const intervalId = setInterval(fetchMessages, 5000); // Adjust the interval as needed
+    const intervalId = setInterval(fetchMessages, 3000); // Adjust the interval as needed
 
     // Clear the interval when the component is unmounted
     return () => clearInterval(intervalId);
@@ -52,12 +51,12 @@ const ChatBubble: React.FC<ChatBubbleProps> = () => {
             </div>
             <div className='chat chat-start'>
               <div className="chat-image avatar">
-                <div className="w-10 rounded-full">
+                <div className="w-17 rounded-full">
                   <Image
                     alt="Chat bot icon"
                     src={Logo}
-                    width={35}
-                    height={35}
+                    width={45}
+                    height={45}
                     className="rounded-full bg-white border-solid"
                   />
                 </div>

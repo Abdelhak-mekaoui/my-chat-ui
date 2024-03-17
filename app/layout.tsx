@@ -4,6 +4,8 @@ import Footer from '@/components/Footer';
 import NextAuthProvider from '@/components/NextAuthProvider';
 import { Session } from 'next-auth';
 import Navbar from '@/components/Navbar';
+import { Toaster } from 'react-hot-toast';
+
 import "./globals.css"
 // Include session in the type definition for props
 type RootLayoutProps = {
@@ -17,6 +19,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children, session }) => {
     <html lang="en">
       <body className="p-2 px-4 ">
           <NextAuthProvider session={session}> 
+          <Toaster />
             <Navbar />
             {children}
             <Footer />

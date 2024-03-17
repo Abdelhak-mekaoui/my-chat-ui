@@ -2,10 +2,17 @@
 
 import React, { useState } from 'react';
 import axios from 'axios'; 
+import toast from 'react-hot-toast';
 
 const Input: React.FC = () => {
   const [question, setQuestion] = useState<string>('');
   const [options, setOptions] = useState<string[]>(['', '', '', '', '']);
+
+
+  const resetForm = () => {
+    setQuestion(''); // This will clear the question input
+    setOptions(['', '', '', '', '']); // This will clear all the option inputs
+  };
 
   const handleSendClick = async () => {
     if (question.trim() === '' || options.some(option => option.trim() === '')) {
@@ -27,8 +34,25 @@ const Input: React.FC = () => {
     };
 
     try {
-      const response = await axios.post('/api/ask', questionPayload);
-      console.log('LLM response:', response.data);
+    //   const response = await axios.post('/api/ask', questionPayload);
+    //   console.log('LLM response:', response.data);
+
+    // Wrap the axios call with toast.promise
+    toast.promise(
+        axios.post('/api/ask', questionPayload),
+        {
+          loading: 'Sending question...',
+          success: (res) => {
+            console.log('LLM response:', res.data);
+            resetForm(); // Reset the form upon success
+            return <b>Question answered successfully!</b>;
+          },
+          error: (err) => {
+            console.error('Error sending question:', err);
+            return <b>Error sending question.</b>; // Consider more user friendly error messages.
+          }
+        }
+      );
       
     } catch (error) {
       console.error('Error sending question:', error)
@@ -53,7 +77,7 @@ const Input: React.FC = () => {
           placeholder="Enter your question here"
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
-          className="input input-bordered w-full mb-2 rounded-lg"
+          className="input input-bordered w-full mb-2 border-2 border-gray-400 rounded-lg"
         />
         {options.map((option, index) => (
         <>
@@ -72,7 +96,7 @@ const Input: React.FC = () => {
           </>
         ))}
       </div>
-      <button className="btn btn-info rounded-lg" onClick={handleSendClick}>
+      <button className="btn btn-info w-full rounded-lg text-2xl text-white font-bold" onClick={handleSendClick}>
         Send
       </button>
     </div>

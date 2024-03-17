@@ -1,10 +1,10 @@
-// pages/api/messages.ts
-
 import { NextApiRequest, NextApiResponse } from 'next';
-import prisma from '@/lib/prisma'; // Ensure this path is correct
-import { Message } from '@prisma/client';
+import prisma from '@/lib/prisma';
+import { unstable_getServerSession } from 'next-auth/next';
 
-// You can define a type for the API response if you'd like to have more control over it
+import { Message } from '@prisma/client';
+import { authOption } from './auth/[...nextauth]';
+
 type Data = {
   messages: Message[] | null;
   error?: string;
@@ -14,9 +14,21 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
+  // Retrieve the session using the request
+  const session = await unstable_getServerSession(req, res, authOption);
+
+  // If there's no session or if the user is not logged in, return an error
+  if (!session || !session.user) {
+    return res.status(401).json({ messages: null, error: 'Unauthorized' });
+  }
+
   if (req.method === 'GET') {
     try {
+      // Retrieve messages for the authenticated user
       const messages: Message[] = await prisma.message.findMany({
+        where: {
+          email: session.user.email, // Use the session's user email to filter messages
+        },
         orderBy: {
           createdAt: 'desc',
         },

@@ -54,11 +54,11 @@ model VerificationToken {
 }
 
 model Message {
-  id      String  @id @default(uuid())
-  question String
-  response String
-  User    User?   @relation(fields: [email], references: [email])
-  email   String?
-
+  id        String   @id @default(uuid())
+  question  String
+  response  String
+  options   Json?    // New field to store the options
+  User      User?    @relation(fields: [email], references: [email])
+  email     String?
   createdAt DateTime @default(now())
 }

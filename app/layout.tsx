@@ -15,7 +15,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children, session }) => {
 
   return (
     <html lang="en">
-      <body className="p-2 px-4">
+      <body className="p-2 px-4 ">
           <NextAuthProvider session={session}> 
             <Navbar />
             {children}

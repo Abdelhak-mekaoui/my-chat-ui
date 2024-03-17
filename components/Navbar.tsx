@@ -3,20 +3,21 @@ import React from 'react';
 import { useSession } from 'next-auth/react';
 import LoginButton from './LoginButton';
 import LogoutButton from './LogoutButton';
+import ThemeController from './ThemeController';
 
 const Navbar: React.FC = () => {
   const { data: session } = useSession(); 
-  console.log(session)
 
   return (
-    <div className="navbar bg-base-100">
-      <div className="flex-1 text-white font-size-[10]">
-        My chat
+    <div className="navbar  bg-neutral text-neutral-content rounded-lg">
+      <div className="flex-1">
+        <a className="ml-3 text-3xl font-bold">MyChat</a>
+      </div>
+      <div className="mr-3">
+        <ThemeController />
       </div>
       <div className="flex-none gap-2">
-        <div className="form-control">
-          <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" />
-        </div>
+        
         {session ? (
           <div className="dropdown dropdown-end">
             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">

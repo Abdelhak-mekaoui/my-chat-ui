@@ -9,7 +9,7 @@ const Navbar: React.FC = () => {
   const { data: session } = useSession(); 
 
   return (
-    <div className="navbar  bg-neutral text-neutral-content rounded-lg">
+    <div className="navbar bg-base-200 text-base-content rounded-lg">
       <div className="flex-1">
         <a className="ml-3 text-3xl font-bold">MyChat</a>
       </div>

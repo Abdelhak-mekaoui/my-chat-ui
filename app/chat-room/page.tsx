@@ -7,7 +7,6 @@ import { redirect } from 'next/navigation'
 
 
 
-
 export default async function page() {
   const session = await getServerSession(authOption)
 
@@ -15,7 +14,7 @@ export default async function page() {
     redirect('/')
   }
   return (
-    <div className="h-full my-2 max-w-3xl mx-auto">
+    <div className="h-full my-2 w-full xl:max-w-3xl mx-auto p-2">
         <ChatBubble />
         <Input />
     </div>

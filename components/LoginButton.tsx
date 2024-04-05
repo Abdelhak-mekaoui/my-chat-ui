@@ -1,5 +1,6 @@
 'use client'
 import { signIn } from "next-auth/react"
+import { FaGoogle } from "react-icons/fa";
 
 
 export default function LoginButton() {
@@ -10,7 +11,8 @@ export default function LoginButton() {
         }}
             className="btn"
         >
-            Login
+          Sign in
+            <FaGoogle className="h-5 w-5" />
         </button>
     </>
   )

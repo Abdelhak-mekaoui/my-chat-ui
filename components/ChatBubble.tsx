@@ -5,7 +5,9 @@ import Image from 'next/image';
 import Logo from '@/public/logo.png';
 import { useSession } from "next-auth/react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-
+import {
+  Card,
+} from "@material-tailwind/react";
 interface ChatItem {
   question: string;
   response: string;
@@ -35,21 +37,21 @@ const ChatBubble: React.FC<ChatBubbleProps> = () => {
 
     // Fetch messages immediately on mount and set up a timer to fetch them repeatedly
     fetchMessages();
-    const intervalId = setInterval(fetchMessages, 3000); // Adjust the interval as needed
+    const intervalId = setInterval(fetchMessages, 1000); // Adjust the interval as needed
 
     // Clear the interval when the component is unmounted
     return () => clearInterval(intervalId);
   }, [session]);
 
   return (
-    <div>
-      <ScrollArea className="h-[78vh] rounded-md border-2 border-gray-400 p-4 border-solid">
+    <Card className="shadow-blue-gray-900/5 h-[60vh] bg-base-200">
+      <ScrollArea className="p-4 border-solid">
         {messages.slice(0, 10).map((item, index) => (
           <React.Fragment key={index}>
             <div className='chat chat-end'>
               <div className="chat-bubble">{item.question}</div>
             </div>
-            <div className='chat chat-start'>
+            <div className='chat chat-start '>
               <div className="chat-image avatar">
                 <div className="w-17 rounded-full">
                   <Image
@@ -61,12 +63,18 @@ const ChatBubble: React.FC<ChatBubbleProps> = () => {
                   />
                 </div>
               </div>
-              <div className="chat-bubble">{item.response}</div>
+              <div className="chat-bubble">
+                {item.response ? (
+                  item.response
+                ) : (
+                  <span className="loading loading-dots loading-lg"></span>
+                )}
+              </div>
             </div>
           </React.Fragment>
         ))}
       </ScrollArea>
-    </div>
+    </Card>
   );
 };
 

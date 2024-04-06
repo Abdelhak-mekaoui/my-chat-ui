@@ -44,6 +44,7 @@ model User {
   sessions      Session[]
   questions     Question[]
   responses     Response[]
+  conversations     Conversation[]
 }
 
 model VerificationToken {
@@ -78,6 +79,9 @@ model Response {
 
 model Conversation {
   id        String     @id @default(uuid())
+  User           User?        @relation(fields: [email], references: [email])
+  email          String?
+  createdAt      DateTime     @default(now())
   title     String
   questions Question[]
   responses Response[]

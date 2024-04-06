@@ -155,14 +155,14 @@ const Page: React.FC = () => {
     }
   }, [loading, session, router]);
 
-  if (loading) return <div className='mx-auto my-auto'><span className="loading loading-spinner loading-lg"></span>
+  if (loading || conversation == '') return <div className='mx-auto my-auto'><span className="loading loading-spinner loading-lg"></span>
   </div>;
 
   return (
     <div className="h-full my-2 w-full xl:max-w-3xl mx-auto p-2">
       <Card className="shadow-blue-gray-900/5 h-[60vh] bg-base-200">
         <ScrollArea className="p-4 border-solid">
-          {messages.slice(0, 10).map((item, index) => (
+          {messages && messages.slice(0, 10).map((item, index) => (
             <React.Fragment key={index}>
               <div className='chat chat-end'>
                 <div className="chat-bubble">{item.question}</div>

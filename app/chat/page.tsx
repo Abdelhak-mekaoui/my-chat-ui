@@ -51,15 +51,13 @@ const Page: React.FC = () => {
         const response = await fetch(`/api/conversation/${conversation}`);
         const data = await response.json() as MessageItem[];
     
-        console.log('API response data:', data); // Should log the array of messages
+        console.log('API response data:', data);
     
-        // Now process the array
         const messagesData: MessageItem[] = data.map(item => ({
           question: item.question,
           response: item.response,
         }));
     
-        // Now set your state with the processed messages
         setMessages(messagesData);
     
       } catch (error) {
@@ -160,7 +158,7 @@ const Page: React.FC = () => {
 
   return (
     <div className="h-full my-2 w-full xl:max-w-3xl mx-auto p-2">
-      <Card placeholder="dsdf" className="shadow-blue-gray-900/5 h-[60vh] bg-base-200">
+      <Card placeholder="d" onPointerEnterCapture={()=>console.log('pointer')} onPointerLeaveCapture={()=>console.log('pointer')} className="shadow-blue-gray-900/5 h-[60vh] bg-base-200">
         <ScrollArea className="p-4 border-solid">
           {messages && messages.slice(0, 10).map((item, index) => (
             <React.Fragment key={index}>
@@ -224,7 +222,7 @@ const Page: React.FC = () => {
             </div>
           ))}
           <div className="flex flex-row justify-between gap-1">
-            <Button placeholder="daf" color='green' className='w-full' onClick={addOption} disabled={options.length === 5}>Add Option</Button>
+            <button color='green' className='w-full' onClick={addOption} disabled={options.length === 5}>Add Option</button>
             
           </div>
 

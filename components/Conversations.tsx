@@ -61,8 +61,8 @@ const Conversations: React.FC = () => {
     return (
         <div className="my-4 w-[45] bg-base-200 border-white border-xl">
             <div className="divider h-[0.2rem] bg-base-content rounded-lg"></div>
-            <List placeholder="adf">
-                <ListItem placeholder="adf" className='mb-6 border-gray-100 border-1'>
+            <List placeholder="d" onPointerEnterCapture={()=>console.log('pointer')} onPointerLeaveCapture={()=>console.log('pointer')}>
+                <ListItem placeholder="d" onPointerEnterCapture={()=>console.log('pointer')} onPointerLeaveCapture={()=>console.log('pointer')} className='mb-6 border-gray-100 border-1'>
 
                     <button onClick={handleAddConversation} className='w-full text-base-content flex flex-row items-center justify-between border-1 border-base-content'>
                         <p className='font-bold'>Start new chat</p>
@@ -71,7 +71,7 @@ const Conversations: React.FC = () => {
                 </ListItem>
                 {
                     conversations.map((conversation, index) => (
-                        <ListItem placeholder="adf"
+                        <ListItem placeholder="d" onPointerEnterCapture={()=>console.log('pointer')} onPointerLeaveCapture={()=>console.log('pointer')}
                         key={index}
                         className={`${
                             selectedConversation === conversation.id ? 'bg-gray-400 text-gray-900' : 'text-base-content'

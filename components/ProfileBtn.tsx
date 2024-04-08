@@ -10,9 +10,9 @@ import { FaRegUserCircle } from "react-icons/fa";
         //onClick={() => router.push('/profile')}
          return (
            <>
-          <ListItem placeholder="adf" className="text-base-content">
+          <ListItem placeholder="d" onPointerEnterCapture={()=>console.log('pointer')} onPointerLeaveCapture={()=>console.log('pointer')} className="text-base-content">
           <button onClick={() => router.push('/profile')}>
-            <ListItemPrefix placeholder="adf">
+            <ListItemPrefix placeholder="d" onPointerEnterCapture={()=>console.log('pointer')} onPointerLeaveCapture={()=>console.log('pointer')}>
               <FaRegUserCircle   className="h-5 w-5 text-base-content" />
             </ListItemPrefix>
             <ProfileBtn />

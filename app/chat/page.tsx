@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Logo from '@/public/logo.png';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Card, Button } from '@material-tailwind/react';
+import { Card } from '@material-tailwind/react';
 import axios from 'axios'; 
 import { IoSend } from 'react-icons/io5'; 
 import toast from 'react-hot-toast';

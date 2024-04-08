@@ -4,7 +4,6 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { PrismaClient } from '@prisma/client';
 import { getServerSession } from 'next-auth';
 import { authOption } from './auth/[...nextauth]';
-import axios from 'axios';
 
 
 const prisma = new PrismaClient();
@@ -25,6 +24,16 @@ export default async function handler(
         try {
           const { conversationId, id: questionId, context, context_v2, prompt, options } = req.body;
           const user = session.user;
+
+          // const updatedConversation = 
+          await prisma.conversation.update({
+            where: {
+              id: conversationId,
+            },
+            data: {
+              title: prompt,
+            },
+          });
     
           // Send request to chatbot API
           // const chatbotResponse = await axios.post('/api/chat-proxy', {
@@ -45,7 +54,7 @@ export default async function handler(
             "D": 3.267992360633798e-05,
             "E": 1.546620660519693e-05
             },
-            "best_option": "D",
+            "best_option": "This is response from the proxy till, the model is deployed",
             "num_options": 5
             }
     

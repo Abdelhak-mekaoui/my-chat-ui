@@ -13,6 +13,10 @@ import { MdOutlineDelete } from "react-icons/md";
 import { useRecoilState } from 'recoil';
 import conversationState from '@/store';
 
+type MessageItem = {
+  question: string;
+  response: string;
+};
 
 
 const Page: React.FC = () => {
@@ -21,13 +25,11 @@ const Page: React.FC = () => {
 
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const [messages, setMessages] = useState<MessageComponentProps[]>(
+  const [messages, setMessages] = useState<MessageItem[]>(
     [
       { 
-        name: 'IA', 
-        backgroundColor: 'bg-secondary-100', 
-        darkbackgroundColor: 'bg-gray-700' , 
-        content:'IA hello world' 
+        question:'', 
+        response: ''
       },
     ]
   );
@@ -42,19 +44,17 @@ const Page: React.FC = () => {
     }
   }, [sessionStatus]);
 
-
+  
   useEffect(() => {
     const fetchConversationData = async () => {
       try {
-        // Replace `axios.get` with your fetch method of choice and the right conversation ID
         const response = await fetch(`/api/conversation/${conversation}`);
-        // Assuming the content is returned as JSON 
-        const data = await response.json();
+        const data = await response.json() as MessageItem[];
     
         console.log('API response data:', data); // Should log the array of messages
     
         // Now process the array
-        const messagesData = data.map(item => ({
+        const messagesData: MessageItem[] = data.map(item => ({
           question: item.question,
           response: item.response,
         }));
@@ -79,7 +79,6 @@ const Page: React.FC = () => {
     setOptions(['', '']);
   };
 
-  
 
   const handleSendClick = async () => {
     try {
@@ -120,6 +119,7 @@ const Page: React.FC = () => {
 
       toast.success("Question sent successfully!");
       resetForm();
+      router.refresh()
     } catch (error) {
       toast.error("Failed to send question. Please try again later.");
       console.error("Error sending question:", error);
@@ -160,7 +160,7 @@ const Page: React.FC = () => {
 
   return (
     <div className="h-full my-2 w-full xl:max-w-3xl mx-auto p-2">
-      <Card className="shadow-blue-gray-900/5 h-[60vh] bg-base-200">
+      <Card placeholder="dsdf" className="shadow-blue-gray-900/5 h-[60vh] bg-base-200">
         <ScrollArea className="p-4 border-solid">
           {messages && messages.slice(0, 10).map((item, index) => (
             <React.Fragment key={index}>
@@ -224,7 +224,7 @@ const Page: React.FC = () => {
             </div>
           ))}
           <div className="flex flex-row justify-between gap-1">
-            <Button color='green' className='w-full' onClick={addOption} disabled={options.length === 5}>Add Option</Button>
+            <Button placeholder="daf" color='green' className='w-full' onClick={addOption} disabled={options.length === 5}>Add Option</Button>
             
           </div>
 

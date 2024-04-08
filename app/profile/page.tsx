@@ -10,10 +10,10 @@ const UserProfilePage: React.FC = async () => {
     redirect('/')
   }
   return (
-    <div className="card mx-auto text-neutral-content py-4">
+    <div className="card mx-auto text-base-content py-4">
       <div className="avatar mx-auto">
         <div className="w-24 rounded-xl my-6">
-            <img alt='daf' src={session?.user?.image} />
+            <img alt='daf' src={session?.user?.image!}  />
         </div>
     </div>
       <div className="border-t border-gray-200 px-4 py-5 sm:p-0">

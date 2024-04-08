@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation'
          return (
            <>
                <button
-                    onClick={() => router.push('/chat-room')}
+                    onClick={() => router.push('/chat')}
                 className="btn bg-blue-500 border rounded-lg text-white font-bold" >Start chatting</button>
            </>
          )

@@ -1,6 +1,6 @@
 // pages/api/conversation/[conversationId].ts
 import { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient, Conversation, Question, Response as PrismaResponse } from '@prisma/client';
+import { PrismaClient, Question, Response as PrismaResponse } from '@prisma/client';
 
 const prisma = new PrismaClient();
 

@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Logo from '@/public/logo.png';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Card } from '@material-tailwind/react';
+import { Button, Card } from '@material-tailwind/react';
 import axios from 'axios'; 
 import { IoSend } from 'react-icons/io5'; 
 import toast from 'react-hot-toast';
@@ -222,7 +222,7 @@ const Page: React.FC = () => {
             </div>
           ))}
           <div className="flex flex-row justify-between gap-1">
-            <button color='green' className='w-full' onClick={addOption} disabled={options.length === 5}>Add Option</button>
+            <Button placeholder="d" onPointerEnterCapture={()=>console.log('pointer')} onPointerLeaveCapture={()=>console.log('pointer')} color='green' className='w-full' onClick={addOption} disabled={options.length === 5}>Add Option</Button>
             
           </div>
 

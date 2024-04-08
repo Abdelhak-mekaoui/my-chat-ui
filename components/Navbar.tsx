@@ -1,20 +1,21 @@
 'use client'
-import React from 'react';
+import React, { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import LoginButton from './LoginButton';
 import LogoutButton from './LogoutButton';
-import ThemeController from './ThemeController';
-
+import dynamic from 'next/dynamic';
 const Navbar: React.FC = () => {
   const { data: session } = useSession(); 
-
+  const ThemeController = dynamic(() => import('./ThemeController'), {
+    ssr: false,
+  });
   return (
     <div className="navbar bg-base-200 text-base-content rounded-lg">
       <div className="flex-1">
         <a className="ml-3 text-3xl font-bold">MyChat</a>
       </div>
       <div className="mr-3">
-        <ThemeController />
+      <ThemeController />
       </div>
       <div className="flex-none gap-2">
         

@@ -4,7 +4,8 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-1.0.x"]
 }
 
 model Account {
@@ -35,16 +36,16 @@ model Session {
 }
 
 model User {
-  id            String     @id @default(cuid())
+  id            String         @id @default(cuid())
   name          String?
-  email         String?    @unique
+  email         String?        @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
   questions     Question[]
   responses     Response[]
-  conversations     Conversation[]
+  conversations Conversation[]
 }
 
 model VerificationToken {
@@ -75,13 +76,13 @@ model Response {
   createdAt      DateTime     @default(now())
   conversation   Conversation @relation(fields: [conversationId], references: [id])
   conversationId String
-} 
+}
 
 model Conversation {
   id        String     @id @default(uuid())
-  User           User?        @relation(fields: [email], references: [email])
-  email          String?
-  createdAt      DateTime     @default(now())
+  User      User?      @relation(fields: [email], references: [email])
+  email     String?
+  createdAt DateTime   @default(now())
   title     String
   questions Question[]
   responses Response[]

@@ -11,7 +11,7 @@ import RecoilProvider from '@/components/RecoilProvider';
 // Include session in the type definition for props
 type RootLayoutProps = {
   children: React.ReactNode;
-  session: Session | null; // Assuming you want to allow for a null session
+  session: Session | null; 
 };
 
 const RootLayout: React.FC<RootLayoutProps> = ({ children, session }) => {

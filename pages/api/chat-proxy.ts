@@ -4,7 +4,12 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { PrismaClient } from '@prisma/client';
 import { getServerSession } from 'next-auth';
 import { authOption } from './auth/[...nextauth]';
+import axios from 'axios';
 
+
+// interface responseType {
+//   content: string;
+// }
 
 const prisma = new PrismaClient();
 
@@ -25,47 +30,33 @@ export default async function handler(
           const { conversationId, id: questionId, context, context_v2, prompt, options } = req.body;
           const user = session.user;
 
-          // const updatedConversation = 
+          console.log(JSON.stringify(options))
+
+          const promptWords = prompt.split(' '); 
+          const firstThreeWords = promptWords.slice(0, 3).join(' '); 
+
           await prisma.conversation.update({
             where: {
               id: conversationId,
             },
             data: {
-              title: prompt,
+              title: firstThreeWords,
             },
           });
     
           // Send request to chatbot API
-          // const chatbotResponse = await axios.post('/api/chat-proxy', {
-          //   // Request body structured as chatbot API expects
-          //   id: questionId,
-          //   context,
-          //   context_v2,
-          //   prompt,
-          //   options,
-          // });
-
-          const mockResponse = {
-            "id": "question-123",
-            "scores": {
-            "A": 2.3509186576120555e-05,
-            "B": 2.9526812795666046e-05,
-            "C": 1.9388247892493382e-05,
-            "D": 3.267992360633798e-05,
-            "E": 1.546620660519693e-05
-            },
-            "best_option": "This is response from the proxy till, the model is deployed",
-            "num_options": 5
-            }
-    
-          // Chatbot response processing
-          const { scores, best_option, num_options } = mockResponse//chatbotResponse.data;
-    
-          // Store in the database
-          // Store question and response in the database
+          const chatbotResponse = await axios.post(`${process.env.NEXTAUTH_URL}/api/answer/`, {
+            // Request body structured as chatbot API expects
+            id: questionId,
+            context,
+            context_v2,
+            prompt,
+            options,
+          });
+          
           await prisma.question.create({
             data: {
-              text: prompt,
+              text: prompt as string ,
               options: options, // If options are stored as JSON, convert accordingly
               email: user.email,
               conversationId: conversationId,
@@ -74,15 +65,14 @@ export default async function handler(
 
           await prisma.response.create({
             data: {
-              text: best_option, // Assuming this is the full response text
-              // options: JSON.stringify(scores), // Include if you want to store the score details
+              text: chatbotResponse.data.content, 
               email: user.email,
               conversationId: conversationId,
             },
           });
     
           // Respond with chatbot's answer
-          res.status(200).json({ answer: best_option, questionId, scores });
+          res.status(200).json({ answer: chatbotResponse.data.content});
         } catch (e) {
           console.error('Request error', e);
           res.status(500).json({ error: 'Error communicating with the chatbot or adding data to the database' });

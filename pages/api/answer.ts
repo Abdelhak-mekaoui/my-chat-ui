@@ -41,7 +41,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         content: `Option ${key}: ${value}`,
       });
     }
-
+    // this is comment just to commit and push
     // Call OpenAI's API
     const completion = await openai.chat.completions.create({
       messages: messagess as any,

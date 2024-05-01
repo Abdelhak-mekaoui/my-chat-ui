@@ -1,6 +1,6 @@
 // pages/api/answer.ts
-import { NextApiRequest, NextApiResponse } from 'next';
-import OpenAI from 'openai';
+import { NextApiRequest, NextApiResponse } from "next";
+import OpenAI from "openai";
 
 const openai = new OpenAI();
 
@@ -15,17 +15,22 @@ interface MultipleChoiceQuestion {
 }
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method !== 'POST') {
-    res.setHeader('Allow', ['POST']);
+  if (req.method !== "POST") {
+    res.setHeader("Allow", ["POST"]);
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 
   try {
-    const { id, context, context_v2, prompt, options }: MultipleChoiceQuestion = req.body;
+    const { id, context, context_v2, prompt, options }: MultipleChoiceQuestion =
+      req.body;
 
     // Create messages array
     const messagess = [
-      { role: "system", content: "You are a helpful assistant. Answer the following multiple-choice question." },
+      {
+        role: "system",
+        content:
+          "You are a helpful assistant. Answer the following multiple-choice question.",
+      },
       { role: "user", content: prompt },
     ];
 
@@ -43,7 +48,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       model: "gpt-3.5-turbo",
     });
 
-    const chatBotResponse = completion?.choices[0]//?.message?.content?.trim();
+    const chatBotResponse = completion?.choices[0]; //?.message?.content?.trim();
 
     const response = {
       answer: chatBotResponse,
@@ -51,7 +56,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     // Return the response
     res.status(200).json(response.answer.message);
-  } catch (error:any) {
+  } catch (error: any) {
     res.status(error.statusCode || 500).json({ detail: error.message });
   }
 };

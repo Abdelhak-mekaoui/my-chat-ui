@@ -44,6 +44,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const messages = conversation.questions.map(
       (question: Question, index: number) => ({
         question: question.text,
+        options:question.options,
         response: (conversation.responses[index] as PrismaResponse)?.text || "",
       })
     );
